@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Editais e programas de inovação abertos para quem passou pelo Programa Nascer, atualizados automaticamente.">
+<title>Radar Pós-Nascer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: faixa de abertura escura com o degradê do Nascer (igual nos dois temas); abaixo, coluna de leitura com cards em grade e linha do tempo */
+:root{
+  /* marca, amostrada das peças oficiais */
+  --nascer-navy:#070e20; --nascer-glow:#2b3e28; --nascer-deep:#101e45;
+  --lime:#8dbe41; --blue:#3d6fd9; --fapesc-navy:#283670; --fapesc-red:#de252b;
+  /* tema escuro (padrão) */
+  --bg:#070e20; --surface:#0f1a35; --surface-2:#16224a; --ink:#eef2fa; --muted:#a3aec8; --line:#24325c;
+  --accent:#8dbe41; --accent-ink:#0b1530; --accent-soft:rgba(141,190,65,.14);
+  --blue-txt:#7fa2ee; --blue-soft:rgba(61,111,217,.18);
+  --alert:#ff6b6f; --alert-soft:rgba(222,37,43,.18);
+  --display:"Poppins",ui-sans-serif,system-ui,sans-serif;
+  --body:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){
+  --bg:#f3f5fa; --surface:#ffffff; --surface-2:#eef1f8; --ink:#0b1530; --muted:#4b5778; --line:#d6dcea;
+  --accent:#4c7d17; --accent-ink:#ffffff; --accent-soft:#e7f2d6;
+  --blue-txt:#2f5fc9; --blue-soft:#e2eafb; --alert:#c41e24; --alert-soft:#fbe2e3; color-scheme:light}}
+:root[data-theme="light"]{
+  --bg:#f3f5fa; --surface:#ffffff; --surface-2:#eef1f8; --ink:#0b1530; --muted:#4b5778; --line:#d6dcea;
+  --accent:#4c7d17; --accent-ink:#ffffff; --accent-soft:#e7f2d6;
+  --blue-txt:#2f5fc9; --blue-soft:#e2eafb; --alert:#c41e24; --alert-soft:#fbe2e3; color-scheme:light}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--body)}
+.gutter{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.inner{max-width:900px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.12}
+h2{font-size:1.5rem;font-weight:700}
+h3{font-size:1.12rem;font-weight:600}
+p{margin:0}
+
+/* faixa de abertura: sempre na cor da marca */
+.hero{background:radial-gradient(120% 90% at 100% 0%,var(--nascer-glow) 0%,transparent 55%),radial-gradient(90% 80% at 0% 100%,var(--nascer-deep) 0%,transparent 60%),var(--nascer-navy);color:#f4f7fc;padding-block:48px 52px}
+.hero .inner{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
+.hero svg{width:clamp(72px,14vw,120px);height:auto}
+.hero-text{display:flex;flex-direction:column;gap:12px;min-width:0}
+.kicker{font:600 .8rem var(--display);letter-spacing:.28em;text-transform:uppercase;color:#c9d2e6}
+.hero h1{font-size:clamp(2.1rem,6.5vw,3.5rem);font-weight:800;letter-spacing:-.02em;color:#ffffff}
+.hero h1 .l{color:#8dbe41}.hero h1 .b{color:#5b8ae6}
+.hero .lede{max-width:60ch;color:#c3cce0;font-size:1.04rem}
+.stamp{display:inline-flex;gap:8px;align-items:center;font:500 .8rem var(--mono);color:#0b1530;background:#8dbe41;padding:6px 10px;border-radius:6px;width:fit-content}
+@media (max-width:560px){.hero .inner{grid-template-columns:1fr;gap:18px}}
+
+.wrap{padding-block:36px 64px}
+.wrap .inner{display:flex;flex-direction:column;gap:44px}
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:600 .88rem var(--display);border:1.5px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 16px;border-radius:999px;cursor:pointer}
+.chip:hover{border-color:var(--accent)}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.chip:focus-visible,a:focus-visible{outline:2px solid var(--blue-txt);outline-offset:2px}
+section{display:flex;flex-direction:column;gap:18px}
+.sec-head{display:flex;flex-direction:column;gap:6px}
+.sec-head h2::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--accent);margin-right:28px;vertical-align:.18em;box-shadow:15px 0 0 0 var(--blue-txt)}
+.sec-head h2{padding-right:6px}
+.sec-head p{color:var(--muted);max-width:62ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,400px),1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.card-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.org{font-size:.85rem;color:var(--muted);margin-top:4px}
+.days{flex:none;text-align:center;font-family:var(--mono);border-radius:12px;padding:8px 10px;min-width:72px;background:var(--blue-soft);color:var(--blue-txt)}
+.days b{display:block;font-size:1.55rem;line-height:1;font-family:var(--display);font-weight:700}
+.days span{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em}
+.days.urgent{background:var(--alert-soft);color:var(--alert)}
+.desc{font-size:.96rem}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font:500 .74rem var(--mono);padding:4px 8px;border-radius:6px;background:var(--surface-2);color:var(--muted)}
+.tag.fit-alta{background:var(--accent-soft);color:var(--accent)}
+.tag.fit-media{background:var(--blue-soft);color:var(--blue-txt)}
+dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.9rem}
+dt{color:var(--muted)}dd{margin:0;min-width:0}
+.go{display:inline-flex;align-items:center;gap:6px;font:600 .95rem var(--display);color:var(--accent);text-decoration:none;margin-top:auto}
+.go:hover{text-decoration:underline}
+.timeline{display:flex;flex-direction:column;border-left:2px solid var(--line);margin-left:6px}
+.t-item{position:relative;padding:0 0 26px 22px;display:flex;flex-direction:column;gap:6px}
+.t-item::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
+.t-when{font:500 .8rem var(--mono);color:var(--blue-txt);text-transform:uppercase;letter-spacing:.05em}
+.t-item p{color:var(--muted);font-size:.94rem;max-width:64ch}
+.empty{color:var(--muted);font-style:italic}
+.tips{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px}
+.tips ol{margin:0;padding-left:1.3rem;display:flex;flex-direction:column;gap:10px}
+.tips li::marker{font-family:var(--display);font-weight:700;color:var(--accent)}
+footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padding-top:18px;display:flex;flex-direction:column;gap:6px}
+@media (prefers-reduced-motion:no-preference){.card{transition:transform .15s,border-color .15s}.card:hover{transform:translateY(-2px);border-color:var(--accent)}}
+
+.filters{align-items:center}
+.field{display:inline-flex;align-items:center;gap:10px;font:600 .88rem var(--display)}
+.field span{color:var(--muted)}
+.field select{font:600 .9rem var(--display);color:var(--ink);background:var(--surface);border:1.5px solid var(--accent);border-radius:999px;padding:8px 36px 8px 16px;appearance:none;-webkit-appearance:none;max-width:100%;cursor:pointer;
+ background-image:linear-gradient(45deg,transparent 50%,var(--accent) 50%),linear-gradient(135deg,var(--accent) 50%,transparent 50%);background-position:calc(100% - 20px) 55%,calc(100% - 14px) 55%;background-size:6px 6px;background-repeat:no-repeat}
+.field select:focus-visible,.check input:focus-visible{outline:2px solid var(--blue-txt);outline-offset:2px}
+.check{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;color:var(--muted);cursor:pointer}
+.check input{accent-color:var(--accent);width:18px;height:18px}
+.linkbtn{font:inherit;font-style:normal;text-align:left;font-weight:600;color:var(--accent);background:none;border:0;padding:0;text-decoration:underline;cursor:pointer}
+
+.status{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.busca{display:inline-flex;gap:8px;align-items:center;font:500 .8rem var(--mono);color:#c9d2e6}
+.busca i{width:8px;height:8px;border-radius:50%;background:#5b8ae6;animation:pulso 1.2s ease-in-out infinite}
+@keyframes pulso{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.busca i{animation:none}}
+.stamp.velho{background:#e9b546}
+</style>
+</head>
+<body>
+
+
+<header class="hero gutter">
+  <div class="inner">
+    <svg viewBox="0 0 96 96" fill="none" aria-hidden="true">
+      <g stroke="#3d6fd9" stroke-width="5" stroke-linecap="round"><path d="M22 14l5 8"/><path d="M8 30l9 3"/><path d="M38 6v9"/></g>
+      <g stroke="#8dbe41" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M60 78V70c0-5 3-9 8-13a24 24 0 1 0-32 0c5 4 8 8 8 13v8"/>
+        <path d="M44 85h16"/><path d="M47 92h10"/>
+        <path d="M52 64V44"/><path d="M52 52c-1-7-6-10-12-10 0 7 5 10 12 10z"/><path d="M52 47c1-6 5-9 11-9 0 6-4 9-11 9z"/>
+      </g>
+    </svg>
+    <div class="hero-text">
+      <span class="kicker">Radar pós-Nascer</span>
+      <h1>Sua ideia não parou na <span class="l">pré</span>-<span class="b">incubação</span>.</h1>
+      <p class="lede">Editais e programas com a mesma lógica do Programa Nascer: ideias inovadoras em estágio inicial, mentoria, aceleração ou fomento. A lista se atualiza sozinha a partir de fontes públicas; volte aqui antes de cada submissão.</p>
+      <div class="status"><span class="stamp" id="stamp">Carregando…</span><span class="busca" id="busca" hidden><i></i>Buscando editais novos agora</span></div>
+    </div>
+  </div>
+</header>
+<div class="wrap gutter"><div class="inner">
+
+
+<div class="filters" role="group" aria-label="Filtrar editais">
+  <label class="field" for="f-uf"><span>Onde</span>
+    <select id="f-uf"></select>
+  </label>
+  <button class="chip" id="f-cnpj" type="button" aria-pressed="false">Aceita sem CNPJ</button>
+  <label class="check" id="wrap-nac" for="f-nac" hidden><input type="checkbox" id="f-nac"> Incluir editais nacionais</label>
+</div>
+
+<section>
+  <div class="sec-head">
+    <h2>Inscrições abertas agora</h2>
+    <p>Ordenados pelo prazo mais próximo. A contagem de dias é calculada a partir de hoje.</p>
+  </div>
+  <div class="grid" id="abertos"><p class="empty">Carregando editais…</p></div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <h2>No radar</h2>
+    <p>Editais que costumam abrir todo ano. As datas são estimativas baseadas na edição anterior; confirme no site oficial quando abrir.</p>
+  </div>
+  <div class="timeline" id="previstos"></div>
+</section>
+
+<section class="tips">
+  <div class="sec-head"><h2>Reaproveitando sua proposta do Nascer</h2></div>
+  <ol>
+    <li>Releia a avaliação da sua banca. O critério em que você perdeu ponto é o primeiro a reforçar no próximo edital.</li>
+    <li>Ajuste a linguagem a cada chamada: BNDES Garagem pede impacto socioambiental; editais FAPESC pedem conexão com ODS e potencial para SC.</li>
+    <li>Leve evidências de validação feitas depois do Nascer: entrevistas com clientes, protótipo, primeiras vendas.</li>
+    <li>Confira se o edital exige CNPJ. Vários aceitam pessoa física na fase de ideia; outros exigem empresa aberta há alguns meses.</li>
+    <li>Cadastre-se cedo nas plataformas (SIGFAPESC, Sebrae Startups, Finep). Elas costumam travar no último dia.</li>
+  </ol>
+</section>
+
+<footer>
+  <p>Página informativa, criada por um facilitador do Programa Nascer. Não é um canal oficial da FAPESC nem do Sebrae/SC.</p>
+  <p>A lista é coletada automaticamente por inteligência artificial a partir de fontes públicas, a cada 15 dias. Pode conter erros de data ou critério: sempre leia o edital oficial antes de submeter.</p>
+</footer>
+</div></div>
+
+<script>
+(function(){
+  var data=null;
+  var UFS={AC:"Acre",AL:"Alagoas",AP:"Amapá",AM:"Amazonas",BA:"Bahia",CE:"Ceará",DF:"Distrito Federal",ES:"Espírito Santo",GO:"Goiás",MA:"Maranhão",MT:"Mato Grosso",MS:"Mato Grosso do Sul",MG:"Minas Gerais",PA:"Pará",PB:"Paraíba",PR:"Paraná",PE:"Pernambuco",PI:"Piauí",RJ:"Rio de Janeiro",RN:"Rio Grande do Norte",RS:"Rio Grande do Sul",RO:"Rondônia",RR:"Roraima",SC:"Santa Catarina",SP:"São Paulo",SE:"Sergipe",TO:"Tocantins"};
+  var hoje=new Date();hoje.setHours(0,0,0,0);
+  var st={uf:'todos',semCnpj:false,nac:false};
+  try{var sv=JSON.parse(localStorage.getItem('radar-filtros')||'null');if(sv)st=Object.assign(st,sv);}catch(e){}
+  function save(){try{localStorage.setItem('radar-filtros',JSON.stringify(st));}catch(e){}}
+  function fmt(iso){var p=iso.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
+  function aberto(it){return new Date(it.prazo+'T23:59:59')>=hoje;}
+  var abertos=[];
+  var sel=document.getElementById('f-uf');
+  function count(uf){return abertos.filter(function(i){return i.uf===uf;}).length+data.previstos.filter(function(i){return i.uf===uf;}).length;}
+  function montarSelect(){
+  var opts='<option value="todos">Todo o Brasil (tudo)</option><option value="BR">Só editais nacionais ('+count('BR')+')</option><optgroup label="Por estado">';
+  Object.keys(UFS).sort(function(a,b){return UFS[a].localeCompare(UFS[b],'pt');}).forEach(function(k){var n=count(k);opts+='<option value="'+k+'">'+UFS[k]+(n?' ('+n+')':'')+'</option>';});
+  sel.innerHTML=opts+'</optgroup>';
+  }
+  if(!(st.uf==='todos'||st.uf==='BR'||UFS[st.uf]))st.uf='todos';
+  var cnpjBtn=document.getElementById('f-cnpj'),nacBox=document.getElementById('f-nac'),nacWrap=document.getElementById('wrap-nac');
+  function passa(it){
+    if(st.semCnpj&&it.cnpj)return false;
+    if(st.uf==='todos')return true;
+    if(st.uf==='BR')return it.uf==='BR';
+    return it.uf===st.uf||(st.nac&&it.uf==='BR');
+  }
+  function link(u){return /^https?:\/\//i.test(u||'')?esc(u):'#';}
+  function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+  function tags(it){
+    var h='';
+    if(it.fit)h+='<span class="tag fit-'+it.fit+'">'+(it.fit==='alta'?'Muito parecido com o Nascer':'Próximo passo')+'</span>';
+    h+='<span class="tag">'+(it.cnpj?'Exige CNPJ':'Aceita sem CNPJ')+'</span>';
+    h+='<span class="tag">'+(it.uf==='BR'?'Nacional':esc(UFS[it.uf]||it.uf))+'</span>';
+    return h;
+  }
+  function vazio(onde){
+    var nome=UFS[st.uf];
+    if(nome&&!st.nac)return '<p class="empty">Nenhum edital estadual ('+nome+') '+onde+'. Os nacionais também valem para quem é desse estado: <button class="linkbtn" type="button" data-show-nac>mostrar editais nacionais</button></p>';
+    return '<p class="empty">Nada '+onde+' com esses filtros.</p>';
+  }
+  function render(){
+    sel.value=st.uf;cnpjBtn.setAttribute('aria-pressed',st.semCnpj?'true':'false');
+    nacWrap.hidden=!UFS[st.uf];nacBox.checked=st.nac;
+    var ab=abertos.filter(passa).sort(function(a,b){return a.prazo<b.prazo?-1:1;});
+    document.getElementById('abertos').innerHTML=ab.length?ab.map(function(it){
+      var d=Math.round((new Date(it.prazo+'T00:00:00')-hoje)/864e5);
+      return '<article class="card"><div class="card-top"><div><h3>'+esc(it.nome)+'</h3><p class="org">'+esc(it.org)+'</p></div>'+
+        '<div class="days'+(d<=7?' urgent':'')+'"><b>'+(d<=0?'Hoje':d)+'</b><span>'+(d<=0?'último dia':(d===1?'dia':'dias'))+'</span></div></div>'+
+        '<p class="desc">'+esc(it.desc)+'</p><div class="tags">'+tags(it)+'</div>'+
+        '<dl><dt>Prazo</dt><dd>'+esc(it.prazoTexto)+'</dd><dt>Quem pode</dt><dd>'+esc(it.quem)+'</dd><dt>Oferece</dt><dd>'+esc(it.oferece)+'</dd></dl>'+
+        '<a class="go" href="'+link(it.url)+'" target="_blank" rel="noopener">Ver edital →</a></article>';
+    }).join(''):vazio('com inscrição aberta agora');
+    var pv=data.previstos.filter(passa);
+    document.getElementById('previstos').innerHTML=pv.length?pv.map(function(it){
+      return '<div class="t-item"><span class="t-when">'+esc(it.quando)+'</span><h3>'+esc(it.nome)+'</h3><p>'+esc(it.desc)+'</p>'+
+        '<div class="tags">'+tags(it)+'</div><a class="go" href="'+link(it.url)+'" target="_blank" rel="noopener">Edição anterior →</a></div>';
+    }).join(''):vazio('previsto no radar');
+  }
+  sel.addEventListener('change',function(){st.uf=sel.value;save();render();});
+  cnpjBtn.addEventListener('click',function(){st.semCnpj=!st.semCnpj;save();render();});
+  nacBox.addEventListener('change',function(){st.nac=nacBox.checked;save();render();});
+  document.addEventListener('click',function(e){if(e.target.closest('[data-show-nac]')){st.nac=true;save();render();}});
+  function fmtData(iso){var d=new Date(iso);return isNaN(d)?'—':d.toLocaleDateString('pt-BR');}
+  var tentativas=0;
+  function aplicar(r){
+    data=r.dados;
+    abertos=(data.abertos||[]).filter(aberto);
+    data.previstos=data.previstos||[];
+    var dias=(Date.now()-new Date(data.coletadoEm))/864e5;
+    var stamp=document.getElementById('stamp');
+    stamp.textContent='Última busca: '+fmtData(data.coletadoEm);
+    stamp.classList.toggle('velho',dias>30);
+    document.getElementById('busca').hidden=!r.coletando;
+    montarSelect();render();
+    if(r.coletando&&tentativas<20){tentativas++;setTimeout(carregar,30000);}
+  }
+  function carregar(){
+    fetch('/api/editais',{cache:'no-store'}).then(function(x){if(!x.ok)throw 0;return x.json();}).then(aplicar).catch(function(){
+      if(!data)document.getElementById('abertos').innerHTML='<p class="empty">Não foi possível carregar os editais agora. Tente recarregar a página em alguns minutos.</p>';
+    });
+  }
+  var temFiltroSalvo=false;try{temFiltroSalvo=!!localStorage.getItem('radar-filtros');}catch(e){}
+  if(!temFiltroSalvo){
+    fetch('/api/onde',{cache:'no-store'}).then(function(x){return x.json();}).then(function(o){
+      if(o&&UFS[o.uf]){st.uf=o.uf;st.nac=true;if(data)render();}
+    }).catch(function(){});
+  }
+  carregar();
+})();
+
+</script>
+</body>
+</html>
