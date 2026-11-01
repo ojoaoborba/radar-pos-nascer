@@ -1,7 +1,7 @@
 // GET /api/editais — devolve a lista e, se a última busca tiver 15 dias ou mais, dispara uma nova em segundo plano.
 // Se algo estiver mal configurado, responde com o motivo em "status.erro" em vez de quebrar.
 import { waitUntil } from '@vercel/functions';
-import { ler, gravar } from '../lib/armazem.js';
+import { ler, gravar, blobConfigurado } from '../lib/armazem.js';
 import { coletar } from '../lib/coletar.js';
 import seed from '../lib/seed.js';
 
@@ -13,7 +13,7 @@ const ESPERA_FALHA = 6 * 3600e3; // depois de uma falha, espera 6 h antes de ten
 
 function faltando() {
   const f = [];
-  if (!process.env.BLOB_READ_WRITE_TOKEN) f.push('BLOB_READ_WRITE_TOKEN (crie o Blob em Storage e conecte ao projeto)');
+  if (!blobConfigurado()) f.push('Blob (crie em Storage e conecte ao projeto; deve aparecer BLOB_STORE_ID)');
   if (!process.env.TAVILY_API_KEY) f.push('TAVILY_API_KEY');
   if (!process.env.LLM_API_KEY) f.push('LLM_API_KEY');
   return f;
@@ -37,7 +37,7 @@ export default async function handler(req, res) {
   let dados = seed, estado = {}, coletando = false, erro = null;
 
   try {
-    if (process.env.BLOB_READ_WRITE_TOKEN) {
+    if (blobConfigurado()) {
       const salvo = await ler('dados.json');
       if (salvo) dados = salvo; else await gravar('dados.json', seed);
       estado = (await ler('estado.json')) || {};

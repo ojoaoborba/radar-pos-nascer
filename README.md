@@ -118,7 +118,7 @@ O site já abre, mostrando a lista inicial. Ele ainda não se atualiza sozinho.
 2. Nome: `radar-dados`. Se perguntar o tipo de acesso, escolha **Public**.
 3. Conecte o armazenamento ao projeto `radar-pos-nascer`.
 
-A Vercel cria sozinha a variável `BLOB_READ_WRITE_TOKEN`.
+A Vercel cria sozinha a variável `BLOB_STORE_ID` (em contas antigas, `BLOB_READ_WRITE_TOKEN`). O código aceita as duas.
 
 ### 4. Criar as duas chaves gratuitas
 
@@ -146,7 +146,7 @@ Na aba **Deployments**, clique nos três pontinhos do deploy mais recente e em *
 
 | Variável | Obrigatória | Padrão | Para que serve |
 |---|---|---|---|
-| `BLOB_READ_WRITE_TOKEN` | sim | — | Criada automaticamente ao conectar o Blob (passo 3). |
+| `BLOB_STORE_ID` | sim | — | Criada automaticamente ao conectar o Blob (passo 3). Em contas antigas aparece `BLOB_READ_WRITE_TOKEN`; as duas funcionam. |
 | `TAVILY_API_KEY` | sim | — | Chave do Tavily, para as buscas na web. |
 | `LLM_API_KEY` | sim | — | Chave do Groq (ou de outro provedor, veja abaixo). |
 | `ADMIN_TOKEN` | recomendada | — | Uma senha inventada por você, para forçar uma busca de teste. |
