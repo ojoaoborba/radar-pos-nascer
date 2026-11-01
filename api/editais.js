@@ -5,6 +5,7 @@ import { coletar } from '../lib/coletar.js';
 import seed from '../lib/seed.js';
 
 const DIA = 864e5;
+const pronto = () => !!(process.env.TAVILY_API_KEY && process.env.LLM_API_KEY);
 const INTERVALO = Number(process.env.INTERVALO_DIAS || 15) * DIA;
 const TRAVA = 20 * 60e3;      // uma coleta "em andamento" expira depois de 20 min
 const ESPERA_FALHA = 6 * 3600e3; // depois de uma falha, espera 6 h antes de tentar de novo
@@ -32,7 +33,7 @@ export default async function handler(req, res) {
   const falhouHaPouco = estado.ultimaFalha && agora - estado.ultimaFalha < ESPERA_FALHA;
   let coletando = !!emAndamento;
 
-  if ((vencida || forcar) && !emAndamento && (!falhouHaPouco || forcar) && process.env.ANTHROPIC_API_KEY) {
+  if ((vencida || forcar) && !emAndamento && (!falhouHaPouco || forcar) && pronto()) {
     const novoEstado = { ...estado, coletandoDesde: agora };
     await gravar('estado.json', novoEstado);
     waitUntil(rodar(dados, novoEstado));
@@ -43,6 +44,6 @@ export default async function handler(req, res) {
   res.status(200).json({
     dados,
     coletando,
-    status: { semChave: !process.env.ANTHROPIC_API_KEY, ultimaColeta: estado.ultimaColeta || null, ultimaFalha: estado.ultimaFalha || null, erro: estado.erro || null, uso: estado.uso || null },
+    status: { semChave: !pronto(), ultimaColeta: estado.ultimaColeta || null, ultimaFalha: estado.ultimaFalha || null, erro: estado.erro || null, uso: estado.uso || null },
   });
 }

@@ -171,7 +171,7 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padd
 
 <footer>
   <p>Página informativa, criada por um facilitador do Programa Nascer. Não é um canal oficial da FAPESC nem do Sebrae/SC.</p>
-  <p>A lista é coletada automaticamente por inteligência artificial a partir de fontes públicas, a cada 15 dias. Pode conter erros de data ou critério: sempre leia o edital oficial antes de submeter.</p>
+  <p>A lista é coletada automaticamente por uma inteligência artificial open source a partir de buscas públicas, a cada 15 dias. Pode conter erros de data ou critério: sempre leia o edital oficial antes de submeter.</p>
 </footer>
 </div></div>
 
@@ -227,7 +227,8 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padd
         '<dl><dt>Prazo</dt><dd>'+esc(it.prazoTexto)+'</dd><dt>Quem pode</dt><dd>'+esc(it.quem)+'</dd><dt>Oferece</dt><dd>'+esc(it.oferece)+'</dd></dl>'+
         '<a class="go" href="'+link(it.url)+'" target="_blank" rel="noopener">Ver edital →</a></article>';
     }).join(''):vazio('com inscrição aberta agora');
-    var pv=data.previstos.filter(passa);
+    var hojeIso=new Date(hoje.getTime()-hoje.getTimezoneOffset()*6e4).toISOString().slice(0,10);
+    var pv=data.previstos.filter(function(i){return (!i.ate||i.ate>=hojeIso)&&passa(i);});
     document.getElementById('previstos').innerHTML=pv.length?pv.map(function(it){
       return '<div class="t-item"><span class="t-when">'+esc(it.quando)+'</span><h3>'+esc(it.nome)+'</h3><p>'+esc(it.desc)+'</p>'+
         '<div class="tags">'+tags(it)+'</div><a class="go" href="'+link(it.url)+'" target="_blank" rel="noopener">Edição anterior →</a></div>';
